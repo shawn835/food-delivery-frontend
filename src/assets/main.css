@@ -1,0 +1,238 @@
+:root {
+  /* Colors */
+  --primary-action: #d73030; /* Tomato Red - CTAs */
+  --main-background: #f5f5f5; /* Cream White - backgrounds */
+  --secondary-accent: #4a7043; /* Olive Green - headers, footers */
+  --highlight-pop: #ffc107; /* Golden Yellow - hovers, badges */
+  --text-base: #333333; /* Charcoal Gray - text, borders */
+  --secondary-text: #f5f5f5;
+  /* Fonts */
+  --font-heading: "Playfair Display", serif;
+  --font-body: "Roboto", sans-serif;
+  --font-accent: "Poppins", sans-serif;
+}
+
+/* Reset Defaults for Consistency */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base Body Styles */
+body {
+  background-color: var(--main-background);
+  color: var(--text-base);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  margin-bottom: 15px;
+  letter-spacing: 0.02em;
+}
+
+h1 {
+  font-size: 2.5rem;
+  letter-spacing: 0.05em;
+  color: var(--secondary-accent); /* Olive Green for main titles */
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+p {
+  font-family: var(--font-body);
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+/* strong {
+  font-weight: 700;
+  color: var(--secondary-text);
+} */
+
+small {
+  font-size: 0.85rem;
+  color: var(--text-base);
+  opacity: 0.8;
+}
+
+/* Links */
+a {
+  font-family: var(--font-body);
+  color: var(--primary-action); /* Tomato Red */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--highlight-pop); /* Golden Yellow */
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 2px solid var(--secondary-accent);
+  outline-offset: 2px;
+}
+
+/* Lists */
+ul {
+  font-family: var(--font-body);
+  color: var(--text-base);
+  text-decoration: none;
+  list-style-type: none;
+}
+
+/* Buttons */
+button {
+  font-family: var(--font-accent);
+  font-weight: 500;
+  background-color: var(--primary-action);
+  color: var(--text-base);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: var(--highlight-pop);
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  background-color: var(--text-base);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Forms */
+form {
+  max-width: 600px;
+  margin: 20px 0;
+}
+
+label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--text-base);
+  display: block;
+  margin-bottom: 5px;
+}
+
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+  font-weight: 400;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--text-base);
+  border-radius: 5px;
+  background-color: var(--main-background);
+  color: var(--text-base);
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary-action);
+  outline: none;
+}
+
+input[type="submit"],
+input[type="button"] {
+  font-family: var(--font-accent);
+  background-color: var(--primary-action);
+  color: var(--main-background);
+  border: none;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  background-color: var(--highlight-pop);
+}
+
+header {
+  background-color: var(--secondary-accent);
+  color: var(--main-background);
+  text-align: center;
+}
+
+/* .image {
+  width: 250px;
+  height: 150px;
+} */
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+footer {
+  background-color: var(--secondary-accent);
+  color: var(--main-background);
+  text-align: center;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+section {
+  margin: 20px 0;
+}
+
+/* Media */
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  button,
+  .btn {
+    padding: 8px 15px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+}
