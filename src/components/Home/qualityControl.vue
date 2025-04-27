@@ -8,7 +8,7 @@
 
 <script setup>
 import { computed } from "vue";
-import { useCartStore } from "@/store/store";
+import { useCartStore } from "@/store/cartStore";
 const props = defineProps({
   meal: Object,
 });

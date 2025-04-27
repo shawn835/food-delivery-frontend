@@ -6,10 +6,10 @@
 
     <div v-else>
       <div v-for="item in cartItems" :key="item.id" class="cart-item">
-        <img :src="item.mealImage" :alt="item.name" class="cart-img" />
+        <img :src="item.imageUrl" :alt="item.name" class="cart-img" />
 
         <div class="cart-info">
-          <h3 class="meal-name">{{ item.mealName }}</h3>
+          <h3 class="meal-name">{{ item.name }}</h3>
           <p class="meal-price">KES {{ item.price.toFixed(2) }}</p>
           <qualityControl :meal="item" />
 
@@ -24,7 +24,9 @@
       <div class="cart-footer">
         <p class="total">Total:KES {{ cart.totalPrice.toFixed(2) }}</p>
         <router-link to="/checkout">
-          <button class="checkout-btn">Proceed to Checkout</button>
+          <button class="checkout-btn secondary-btn">
+            Proceed to Checkout
+          </button>
         </router-link>
       </div>
     </div>
@@ -32,12 +34,13 @@
 </template>
 
 <script setup>
-import { useCartStore } from "@/store/store";
-import qualityControl from "@/components/qualityControl.vue";
+import { useCartStore } from "@/store/cartStore";
+import qualityControl from "@/components/Home/qualityControl.vue";
 import { computed } from "vue";
 
 const cart = useCartStore();
 const cartItems = computed(() => cart.cartItems);
+console.log(cartItems.value);
 </script>
 
 <style scoped>
@@ -99,17 +102,5 @@ const cartItems = computed(() => cart.cartItems);
   font-size: 1.3rem;
   margin-bottom: 1rem;
   font-weight: bold;
-}
-.checkout-btn {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-.checkout-btn:hover {
-  background-color: #218838;
 }
 </style>

@@ -1,31 +1,31 @@
 <template>
   <div class="meal-card">
-    <img :src="meal.mealImage" :alt="meal.mealName" class="meal-image" />
+    <img :src="meal.imageUrl" :alt="meal.name" class="meal-image" />
 
     <div class="meal-details">
       <div class="meal-title">
-        <h3>{{ meal.mealName }}</h3>
+        <h3>{{ meal.name }}</h3>
         <button @click="toggleFav" class="fav-btn">
           <span v-if="isFav">❤️</span>
           <span v-else>🤍</span>
         </button>
       </div>
 
-      <div class="meal-meta">
-        <span class="price">ksh {{ meal.price ?? 1300 }} </span>
-        <div class="rating">
-          <span v-for="star in 5" :key="star" class="star">
-            <span :class="{ filled: star <= Math.round(meal.rating ?? 4.5) }"
-              >★</span
-            >
-          </span>
-          <span class="rating-number">({{ meal.rating ?? "4.5" }})</span>
-        </div>
+      <!-- Display Rating -->
+      <div class="rating">
+        <span v-for="star in 5" :key="star" class="star">
+          <span
+            :class="{ filled: star <= Math.round(meal.rating ?? 4.5) }"
+            @click="submitRating(star)"
+            >★</span
+          >
+        </span>
+        <span class="rating-number">({{ meal.totalRatings ?? 0 }})</span>
       </div>
-
+      <!-- 
       <div v-if="meal.tags?.length" class="tags">
         <span v-for="tag in meal.tags" :key="tag" class="tag">{{ tag }}</span>
-      </div>
+      </div> -->
 
       <div class="order-btns">
         <button v-if="!quantity" @click="cart.addToCart(meal)" class="add-btn">
@@ -39,8 +39,8 @@
 
 <script setup>
 import { computed, ref } from "vue";
-import qualityControl from "./qualityControl.vue";
-import { useCartStore } from "@/store/store";
+import qualityControl from "../Home/qualityControl.vue";
+import { useCartStore } from "@/store/cartStore";
 const cart = useCartStore();
 
 const props = defineProps({
@@ -63,11 +63,21 @@ const toggleFav = () => {
 };
 
 const quantity = computed(() => cart.getQuantity(props.meal.id));
+
+const flattenMeals = (meals) => {
+  // Check if meals is an array of arrays (or any nested array)
+  if (Array.isArray(meals) && Array.isArray(meals[0])) {
+    return meals.flat(); // Flatten it to a single array
+  }
+  return meals;
+};
 </script>
 
 <style scoped>
 .meal-card {
-  width: 260px;
+  width: 100%;
+  max-width: 350px;
+  margin: auto;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid #ddd;
@@ -75,6 +85,7 @@ const quantity = computed(() => cart.getQuantity(props.meal.id));
   background: #fff;
   transition: transform 0.2s ease;
 }
+
 .meal-card:hover {
   transform: translateY(-4px);
 }
@@ -181,5 +192,11 @@ const quantity = computed(() => cart.getQuantity(props.meal.id));
 
 .add-btn:hover {
   background-color: #059669;
+}
+
+@media (max-width: 480px) {
+  .meal-image {
+    height: 140px;
+  }
 }
 </style>

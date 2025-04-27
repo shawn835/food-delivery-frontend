@@ -50,6 +50,10 @@ export const useCartStore = defineStore(
       }
     };
 
+    const clearCart = () => {
+      cartItems.value = [];
+    };
+
     return {
       cartItems,
       addToCart,
@@ -58,9 +62,10 @@ export const useCartStore = defineStore(
       totalItems,
       totalPrice,
       removeItemCompletely,
+      clearCart,
     };
   },
   {
-    persist: true, // <- 👈 add this
+    persist: true,
   }
 );
