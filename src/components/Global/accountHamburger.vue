@@ -16,7 +16,7 @@
         v-for="item in menuItems"
         :key="item.label"
         class="menu-item"
-        @click="handleClick(item)">
+        @click="handleUserClick(item, router, toggleMenu)">
         <span>{{ item.label }}</span>
       </div>
     </div>
@@ -27,6 +27,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/store/userStore";
+import { handleUserClick } from "@/composables/useUserMenu";
 const props = defineProps({
   menuItems: Array,
 });
@@ -35,25 +36,6 @@ const userStore = useUserStore();
 
 const showMenu = ref(false);
 const toggleMenu = () => (showMenu.value = !showMenu.value);
-
-const handleClick = async (item) => {
-  toggleMenu();
-
-  if (item.action === "logout") {
-    try {
-      await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
-      userStore.clearUser();
-      router.push("/login");
-    } catch (error) {
-      console.error("logout failed:", error);
-    }
-  } else {
-    router.push(item.route);
-  }
-};
 </script>
 
 <style scoped>

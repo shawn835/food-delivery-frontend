@@ -23,7 +23,7 @@ const openMenu = () => {
   height: 30px;
   position: fixed;
   top: 15px;
-  right: 20px;
+  left: 10px;
   cursor: pointer;
   display: none;
 }
@@ -36,7 +36,7 @@ const openMenu = () => {
   height: 2px;
   top: 0;
   left: 0;
-  background: white;
+  background: var(--text-base);
 }
 
 .middle {

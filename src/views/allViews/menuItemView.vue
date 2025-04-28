@@ -106,6 +106,7 @@ watch(
   margin-bottom: 1rem;
   padding: 0 0.5rem;
   scrollbar-width: none;
+  justify-content: space-around;
 }
 
 .category-belt::-webkit-scrollbar {
@@ -134,5 +135,11 @@ watch(
   gap: 1rem;
   padding: 1rem;
   justify-items: center;
+}
+
+@media (max-width: 768px) {
+  .category-button {
+    padding: 2px 6px;
+  }
 }
 </style>

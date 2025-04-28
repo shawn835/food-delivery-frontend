@@ -41,35 +41,49 @@
 import { computed, ref } from "vue";
 import qualityControl from "../Home/qualityControl.vue";
 import { useCartStore } from "@/store/cartStore";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 const cart = useCartStore();
 
 const props = defineProps({
   meal: {
     type: Object,
     required: true,
-    default: () => ({
-      mealName: "",
-      mealImage: "",
-      price: "",
-      rating: 4.5,
-      tags: [],
-    }),
   },
 });
 
-const isFav = ref(false);
-const toggleFav = () => {
-  isFav.value = !isFav.value;
-};
-
 const quantity = computed(() => cart.getQuantity(props.meal.id));
+const isFav = ref(false);
 
-const flattenMeals = (meals) => {
-  // Check if meals is an array of arrays (or any nested array)
-  if (Array.isArray(meals) && Array.isArray(meals[0])) {
-    return meals.flat(); // Flatten it to a single array
+const toggleFav = async () => {
+  console.log(props.meal.id);
+
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/togglefavourite`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ mealId: props.meal.id }),
+      credentials: "include",
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      if (data.message.includes("added")) {
+        toast.success(data.message);
+        isFav.value = true;
+      } else if (data.message.includes("removed")) {
+        toast.success(data.message);
+        isFav.value = false;
+      }
+    } else {
+      console.error(data.message || "Failed to toggle favourite");
+    }
+  } catch (err) {
+    console.error("Network error", err);
   }
-  return meals;
 };
 </script>
 

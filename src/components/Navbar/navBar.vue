@@ -14,6 +14,7 @@
 import { ref } from "vue";
 import hamburger from "../Global/hamburger.vue";
 import navMenu from "./navMenu.vue";
+import cart from "./cart.vue";
 
 const isMenuOpen = ref(false);
 </script>

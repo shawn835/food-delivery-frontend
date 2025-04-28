@@ -1,4 +1,3 @@
-<!-- src/components/NavMenu.vue -->
 <template>
   <ul class="navbar-navs" :class="{ open: isOpen }">
     <div class="close-icon">
@@ -14,12 +13,12 @@
         @click="openMobileMenu(type.name)"
         class="nav-item">
         {{ type.name }}
-        <span v-if="isMobile" class="chevron">›</span>
+        <span v-if="isMobile" class="chevron"
+          ><i class="fas fa-chevron-right"></i
+        ></span>
         <div v-if="hoveredMenuType === type.name" class="dropdown">
           <ul>
-            <li
-              v-for="category in activeCategories.slice(0, 6)"
-              :key="category.name">
+            <li v-for="category in activeCategories" :key="category.name">
               <router-link
                 :to="`/menu/${type.name.toLowerCase()}/${slugify(
                   category.name
@@ -27,17 +26,22 @@
                 {{ category.name }}
               </router-link>
             </li>
-            <li v-if="activeCategories.length > 6" class="view-more">
-              View More →
-            </li>
           </ul>
         </div>
       </li>
     </template>
 
     <template v-else>
-      <li class="back-button" @click="backToMainMenu">‹ Back</li>
-      <li v-for="category in activeCategories.slice(0, 6)" :key="category.name">
+      <h5
+        v-if="isMobile"
+        @click="backToMainMenu"
+        role="button"
+        aria-label="Go back to main menu"
+        class="active-menutype">
+        <i class="fas fa-arrow-left"></i> {{ activeMobileMenutype }}
+      </h5>
+
+      <li v-for="category in activeCategories" :key="category.name">
         <router-link
           :to="`/menu/${activeMobileMenutype.toLowerCase()}/${slugify(
             category.name
@@ -45,13 +49,27 @@
           {{ category.name }}
         </router-link>
       </li>
-      <li v-if="activeCategories.length > 6" class="view-more">View More →</li>
     </template>
 
-    <Cart />
-    <UserProfile />
-    <loggedInUserMenu />
+    <template v-if="isMobile && !activeMobileMenutype">
+      <h4 class="account-title">Account</h4>
+      <!-- User Menu -->
+      <li
+        v-for="item in userMenu"
+        :key="item.label"
+        @click="handleUserClick(item, router)"
+        class="nav-item">
+        <span>{{ item.label }}</span>
+      </li>
+    </template>
   </ul>
+
+  <template v-if="!isMobile">
+    <UserProfile />
+  </template>
+  <template v-if="isMobile">
+    <cart />
+  </template>
 </template>
 
 <script setup>
@@ -59,12 +77,15 @@ import slugify from "slugify";
 import { storeToRefs } from "pinia";
 import { useMenuStore } from "@/store/menuStore";
 import { useMenu } from "@/composables/useMenu";
+import { useRouter, useRoute } from "vue-router";
 import Cart from "./cart.vue";
 import UserProfile from "@/components/Navbar/userProfile.vue";
-import loggedInUserMenu from "../user/loggedInUserMenu.vue";
+import { userMenu, handleUserClick } from "@/composables/useUserMenu";
 
 defineProps(["isOpen"]);
 const emit = defineEmits(["close-menu"]);
+const router = useRouter();
+const route = useRoute();
 
 const menuStore = useMenuStore();
 const { menuTypes } = storeToRefs(menuStore);
@@ -81,7 +102,6 @@ const {
 </script>
 
 <style scoped>
-/* src/styles/navMenu.css */
 .navbar-navs {
   display: flex;
   list-style: none;
@@ -132,14 +152,14 @@ const {
 
 .close-icon {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 0;
+  right: 0;
   color: black;
   font-size: 1.5rem;
   border-bottom: 1px solid var(--secondary-icon-color);
-  width: 100%;
   display: none;
   cursor: pointer;
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -152,7 +172,7 @@ const {
     background: white;
     position: fixed;
     top: 0;
-    right: 0;
+    left: 0;
     width: 300px;
     height: 100vh;
     padding: 20px;
@@ -165,12 +185,14 @@ const {
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
     align-items: start;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   li {
-    border-bottom: 1px solid red;
     width: 100%;
     font-size: 1.1rem;
+    border-bottom: 1px solid grey;
   }
 
   .open {
@@ -178,14 +200,21 @@ const {
     visibility: visible;
   }
 
-  .dropdown {
-    position: static;
-    box-shadow: none;
-    padding-left: 10px;
+  .account-title {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 3px solid var(--text-base);
+    width: 100%;
+    color: var(--primary-action);
   }
 
-  .back-button {
+  .active-menutype {
+    color: var(--primary-action);
+    font-size: 1.3rem;
     cursor: pointer;
+    width: 100%;
   }
 }
 </style>

@@ -26,4 +26,9 @@
   justify-content: space-between;
   align-items: center;
 }
+@media (max-width: 768px) {
+  .top-bar {
+    display: none;
+  }
+}
 </style>

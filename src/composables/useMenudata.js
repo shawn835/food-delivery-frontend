@@ -1,6 +1,4 @@
 export const fetchMeals = async (category) => {
-  console.log(category);
-
   const url = `${import.meta.env.VITE_API_URL}/meals/${category}`;
   try {
     const res = await fetch(url);
