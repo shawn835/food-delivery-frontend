@@ -68,6 +68,12 @@
     <UserProfile />
   </template>
   <template v-if="isMobile">
+    <h5 v-if="!userStore.user">
+      <router-link to="/login">
+        <i class="fa-solid fa-user"></i> Login
+      </router-link>
+    </h5>
+
     <cart />
   </template>
 </template>
@@ -80,11 +86,13 @@ import { useMenu } from "@/composables/useMenu";
 import { useRouter, useRoute } from "vue-router";
 import Cart from "./cart.vue";
 import UserProfile from "@/components/Navbar/userProfile.vue";
+import { useUserStore } from "@/store/userStore";
 import { userMenu, handleUserClick } from "@/composables/useUserMenu";
 
 defineProps(["isOpen"]);
 const emit = defineEmits(["close-menu"]);
 const router = useRouter();
+const userStore = useUserStore();
 const route = useRoute();
 
 const menuStore = useMenuStore();
