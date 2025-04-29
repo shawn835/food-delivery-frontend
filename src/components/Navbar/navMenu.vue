@@ -51,7 +51,7 @@
       </li>
     </template>
 
-    <template v-if="isMobile && !activeMobileMenutype">
+    <template v-if="isMobile && !activeMobileMenutype && userStore.user">
       <h4 class="account-title">Account</h4>
       <!-- User Menu -->
       <li
